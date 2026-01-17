@@ -1,8 +1,7 @@
-import { Select } from '@mantine/core'
-import location  from '../../assets/map-pin.svg'
+import { Tabs } from '@mantine/core'
 import styles from './citiesFilter.module.css'
 
-import { fetchVacanciesThunk, setPage, setCity } from '../../store/vacanciesSlice'
+import { setPage, setCity } from '../../store/vacanciesSlice'
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 
@@ -10,21 +9,26 @@ export const CitiesFilter = () => {
     const dispatch = useAppDispatch();
     const city = useAppSelector((state) => state.vacancies.city);
 
-    const handleCityChange = (value: string | null) => {
-        dispatch(setCity(value || "Все"));
+    const handleCityChange = (tab: "moscow" | "saint-petersburg") => {
+        dispatch(setCity(tab));
         dispatch(setPage(1));
-        dispatch(fetchVacanciesThunk());
     };
 
     return (
-            <Select
-                placeholder='Все города'
-                data={['Все города', 'Москва', 'Санкт-Петербург']}
-                value={city}
-                onChange={handleCityChange}
-                className={styles.select}
-                comboboxProps={{ shadow: 'md' }}
-                leftSection={ <img src={location} alt="location" /> }
-            />
-        )
+        <Tabs
+            value={city || null}
+            onChange={(value) => handleCityChange(value as 'moscow' | 'saint-petersburg')}
+            className={styles.tabs}
+            color='darkPrimary.6'
+        >
+            <Tabs.List className={styles.tabs__list}>
+                <Tabs.Tab className={styles.tabs__tab} value='moscow'>
+                    Москва
+                </Tabs.Tab>
+                <Tabs.Tab className={styles.tabs__tab} value='saint-petersburg'>
+                    Санкт-Петербург
+                </Tabs.Tab>
+            </Tabs.List>
+        </Tabs>
+    )
 }
