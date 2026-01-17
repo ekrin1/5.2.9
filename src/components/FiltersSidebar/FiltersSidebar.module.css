@@ -1,0 +1,14 @@
+.sidebar {
+    width: 100%;
+    max-width: 317px;
+}
+
+.block {
+  background-color: var(--mantine-color-white-0);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.block + .block {
+  margin-top: 10px;
+}

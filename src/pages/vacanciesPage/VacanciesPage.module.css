@@ -1,0 +1,27 @@
+body .container {
+  padding: 0;
+  padding-bottom: px;
+  margin-inline: 220px;
+  width: 100%;
+  min-width: 1000px;
+}
+
+.main {
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-top: 24px; 
+}
+
+.vacancies {
+  display: flex;
+  flex-direction: column; 
+  gap: 16px;
+}
+
+.error {
+  text-align: center;
+  margin-bottom: 16px;
+  margin-right: 150px;
+  color: red; 
+}
