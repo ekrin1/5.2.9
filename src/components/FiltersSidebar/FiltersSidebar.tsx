@@ -1,5 +1,5 @@
-import { SkillsFilter } from '../skillsFilter/SkillsFilter';
-import { CitiesFilter } from '../citiesFilter/CitiesFilter';  
+import { SkillsFilter } from '../skillsFilter/skillsFilter';
+import { CitiesFilter } from '../citiesFilter/citiesFilter';  
 
 import styles from './FiltersSidebar.module.css';
 
