@@ -1,5 +1,5 @@
 import { SkillsFilter } from '../skillsFilter/skillsFilter';
-import { CitiesFilter } from '../citiesFilter/citiesFilter';  
+// import { CitiesFilter } from '../citiesFilter/citiesFilter';  
 
 import styles from './FiltersSidebar.module.css';
 
@@ -9,8 +9,8 @@ export const FiltersSidebar = () => (
       <SkillsFilter />
     </section>
 
-    <section className={styles.block}>
+    {/* <section className={styles.block}>
       <CitiesFilter />
-    </section>
+    </section> */}
   </aside>
 );

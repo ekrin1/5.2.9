@@ -10,8 +10,12 @@ export async function fetchVacancies(params: {
 }): Promise<JobsResponse> {
   const { page, skills, search, city } = params;
 
-  const area =
-    city === "Москва" ? 1 : city === "Санкт-Петербург" ? 2 : undefined;
+  const CITY_TO_AREA: Record<string, number> = {
+    moscow: 1,
+    petersburg: 2,
+  };
+
+  const area = CITY_TO_AREA[city];
 
   const query = new URLSearchParams({
     text: search,

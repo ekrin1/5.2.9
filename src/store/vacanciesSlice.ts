@@ -38,7 +38,10 @@ export const fetchVacanciesThunk = createAsyncThunk<VacanciesResponse,void,{ sta
       try {
         const data = await fetchVacancies({ page, skills, search, city });
 
-        const totalPages = Math.ceil(data.found / 10);
+      const totalPages = Math.min(
+        Math.ceil(data.found / 10),
+        200
+      );
 
         if (page > totalPages && totalPages > 0) {
           return rejectWithValue('Такой страницы не существует');
@@ -77,7 +80,8 @@ const vacanciesSlice = createSlice({
       .addCase(fetchVacanciesThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.items = action.payload.items;
-        state.totalPages = Math.ceil(action.payload.found / 10);
+        const pagesFromApi = Math.ceil(action.payload.found / 10);
+        state.totalPages = Math.min(pagesFromApi, 200);
       })
       .addCase(fetchVacanciesThunk.rejected, (state, action) => {
         state.loading = false;

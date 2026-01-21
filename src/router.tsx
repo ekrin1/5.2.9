@@ -16,8 +16,7 @@ export const router = createBrowserRouter(
       />
       <Route path="vacancies/" element={<VacanciesPage />}>
         <Route index element={<VacanciesList />} />
-        <Route path="moscow" element={<VacanciesList />} />
-        <Route path="petersburg" element={<VacanciesList />} />
+        <Route path=":city" element={<VacanciesList />} />
       </Route>
       <Route
         path="vacancies/:id"

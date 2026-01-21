@@ -3,10 +3,13 @@ import { useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { fetchVacanciesThunk, setPage, setSearch, setCity, setSkills } from "../store/vacanciesSlice";
+import { useParams } from "react-router-dom";
 
 export const useVacanciesUrl = () => {
 
   const dispatch = useAppDispatch();
+  const { city: cityFromPath } = useParams();
+
   const { items, loading, page, totalPages, search, city, skills } =
     useAppSelector((state) => state.vacancies);
 
@@ -15,7 +18,6 @@ export const useVacanciesUrl = () => {
 
   useEffect(() => {
     const urlSearch = searchParams.get("search") || "";
-    const urlCity = searchParams.get("city") || "";
     const urlSkillsParam = searchParams.get("skills");
     const urlSkills = urlSkillsParam
       ? urlSkillsParam.split(",").filter(Boolean)
@@ -26,7 +28,6 @@ export const useVacanciesUrl = () => {
     if (urlSearch !== search) {
       dispatch(setSearch(urlSearch));
     }
-    if (urlCity !== city) dispatch(setCity(urlCity));
     if (urlSkills && urlSkills.join(",") !== skills.join(",")) {
       dispatch(setSkills(urlSkills));
     }
@@ -38,7 +39,6 @@ export const useVacanciesUrl = () => {
     const params: Record<string, string> = {};
 
     if (search) params.search = search;
-    if (city) params.city = city;
     if (skills.length > 0) params.skills = skills.join(",");
     if (page > 1) params.page = page.toString();
 
@@ -48,7 +48,7 @@ export const useVacanciesUrl = () => {
     } else {
       setSearchParams(params);
     }
-  }, [search, city, skills, page]);
+  }, [search, skills, page]);
 
   // ---------------------------------------------------------------------------------------------------------
 
@@ -62,6 +62,24 @@ export const useVacanciesUrl = () => {
     };
     fetch();
   }, [search, city, skills, page]);
+
+  // ---------------------------------------------------------------------------------------------------------
+
+  useEffect(() => {
+    const normalizedCity = cityFromPath ?? "";
+    if (normalizedCity !== city) {
+      dispatch(setCity(normalizedCity));
+      dispatch(setPage(1));
+    }
+  }, [cityFromPath]);
+  
+  // ---------------------------------------------------------------------------------------------------------
+
+  useEffect(() => {
+    if (page > totalPages && totalPages > 0) {
+      dispatch(setPage(totalPages));
+    }
+  }, [page, totalPages]);
 
   // ---------------------------------------------------------------------------------------------------------
 
