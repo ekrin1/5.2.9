@@ -90,18 +90,21 @@ export const useVacanciesUrl = () => {
 
   // ---------------------------------------------------------------------------------------------------------
 
-    useEffect(() => {
-      if (isFirstRen.current) return;
+  useEffect(() => {
+    const params: Record<string, string> = {};
 
-      const params = searchParams.toString();
-      const query = params ? `?${params}` : "";
+    if (search) params.search = search;
+    if (skills.length > 0) params.skills = skills.join(",");
+    if (page > 1) params.page = page.toString();
 
-      if (city === "") {
-        navigate(`/vacancies${query}`, { replace: true });
-      } else {
-        navigate(`/vacancies/${city}${query}`, { replace: true });
-      }
-    }, [city, searchParams]);
+    const query = new URLSearchParams(params).toString();
+
+    const url = city
+      ? `/vacancies/${city}${query ? `?${query}` : ""}`
+      : `/vacancies${query ? `?${query}` : ""}`;
+
+    navigate(url, { replace: true });
+  }, [city, search, skills, page]);
 
   const handlePageChange = (p: number) => {
     dispatch(setPage(p));
