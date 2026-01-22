@@ -1,28 +1,23 @@
 import { Tabs } from '@mantine/core'
 import styles from './citiesFilter.module.css'
 
-import { useNavigate, useParams  } from "react-router-dom";
-import { useSearchParams } from 'react-router-dom';
+import { useAppSelector, useAppDispatch } from "../../store/hooks";
+import { setPage, setCity } from "../../store/vacanciesSlice";
 
 export const CitiesFilter = () => {
 
-    const navigate = useNavigate();
-    const { city } = useParams<{ city?: string }>();
-    const [searchParams] = useSearchParams();
+    const { city } = useAppSelector((state) => state.vacancies);
+    const dispatch = useAppDispatch();
 
-    const handleCityChange = (value: string | null) => {
-        if (!value) return;
-
-        const query = searchParams.toString();
-        navigate(
-        `/vacancies/${value}${query ? `?${query}` : ""}`
-        );
+    const handleCityChange = (tab: "moscow" | "petersburg") => {
+        dispatch(setCity(tab));
+        dispatch(setPage(1));
     };
 
     return (
         <Tabs
             value={city ?? null}
-            onChange={handleCityChange}
+            onChange={(v) => handleCityChange(v as "moscow" | "petersburg")}
             className={styles.tabs}
             color='darkPrimary.6'
         >

@@ -1,18 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef } from "react";
-import { useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { fetchVacanciesThunk, setPage, setSearch, setCity, setSkills } from "../store/vacanciesSlice";
-import { useParams } from "react-router-dom";
+import { useLocation, useSearchParams, useNavigate } from "react-router-dom";
 
 export const useVacanciesUrl = () => {
-
-  const dispatch = useAppDispatch();
-  const { city: cityFromPath } = useParams();
 
   const { items, loading, page, totalPages, search, city, skills } =
     useAppSelector((state) => state.vacancies);
 
+  const dispatch = useAppDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const isFirstRen = useRef(true);
 
@@ -66,12 +65,20 @@ export const useVacanciesUrl = () => {
   // ---------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
-    const normalizedCity = cityFromPath ?? "";
-    if (normalizedCity !== city) {
-      dispatch(setCity(normalizedCity));
+    if (location.pathname === "/vacancies" && city !== "") {
+      dispatch(setCity(""));
+      dispatch(setPage(1));
+    } else if (location.pathname.includes("/moscow") && city !== "moscow") {
+      dispatch(setCity("moscow"));
+      dispatch(setPage(1));
+    } else if (
+      location.pathname.includes("/petersburg") &&
+      city !== "petersburg"
+    ) {
+      dispatch(setCity("petersburg"));
       dispatch(setPage(1));
     }
-  }, [cityFromPath]);
+  }, [location.pathname]);
   
   // ---------------------------------------------------------------------------------------------------------
 
@@ -82,6 +89,19 @@ export const useVacanciesUrl = () => {
   }, [page, totalPages]);
 
   // ---------------------------------------------------------------------------------------------------------
+
+    useEffect(() => {
+      if (isFirstRen.current) return;
+
+      const params = searchParams.toString();
+      const query = params ? `?${params}` : "";
+
+      if (city === "") {
+        navigate(`/vacancies${query}`, { replace: true });
+      } else {
+        navigate(`/vacancies/${city}${query}`, { replace: true });
+      }
+    }, [city, searchParams]);
 
   const handlePageChange = (p: number) => {
     dispatch(setPage(p));
