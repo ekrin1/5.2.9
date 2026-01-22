@@ -1,4 +1,4 @@
-import { SkillsFilter } from '../skillsFilter/skillsFilter';
+import { SkillsFilter } from '../skillsFilter/SkillsFilter';
 // import { CitiesFilter } from '../citiesFilter/citiesFilter';  
 
 import styles from './FiltersSidebar.module.css';

@@ -1,6 +1,6 @@
 import { Search } from '../../components/search/Search'
 import { FiltersSidebar } from '../../components/FiltersSidebar/FiltersSidebar';
-import { CitiesFilter } from '../../components/citiesFilter/citiesFilter';
+import { CitiesFilter } from '../../components/citiesFilter/CitiesFilter';
 
 import { Group } from "@mantine/core";
 import { Outlet } from "react-router-dom";

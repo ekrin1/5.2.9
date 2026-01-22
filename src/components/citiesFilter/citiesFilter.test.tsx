@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { fireEvent, screen } from "@testing-library/react";
-import { CitiesFilter } from "./citiesFilter";
+import { CitiesFilter } from "./CitiesFilter";
 import { renderWithProviders } from "../../test/utils";
 
 vi.mock("../../store/vacanciesSlice", async () => {

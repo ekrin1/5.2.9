@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 
 import { Text, Group, Loader, Container } from "@mantine/core";
-import { JobCard } from "../../components/jobCard/jobCard";
+import { JobCard } from "../../components/JobCard/JobCard";
 
 import styles from "./VacancyPage.module.css";
 
